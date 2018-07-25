@@ -66,10 +66,11 @@ export default class Controller {
 	}
 	
 	getXAmt(freq, amt) {
+		return this.getYAmt(freq, amt + 0.25);
 		if (freq == 0) {
 			return 0;
 		}
-		let xAmt = Math.cos(2 * Math.PI * freq * amt);
+		let xAmt = Math.sin(2 * Math.PI * freq * amt);
 		if (freq < 0) {
 			return -xAmt;
 		}
