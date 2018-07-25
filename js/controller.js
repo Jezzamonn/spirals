@@ -13,7 +13,7 @@ export default class Controller {
 	 * @param {CanvasRenderingContext2D} context 
 	 */
 	render(context) {
-		const maxDist = 3;
+		const maxDist = 8;
 		const spacing = 500 / (2 * maxDist + 1);
 		const paddingAmt = 0.8;
 
