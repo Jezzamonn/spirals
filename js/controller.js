@@ -44,8 +44,8 @@ export default class Controller {
 		const numPoints = 50;
 		for (let i = 0; i < numPoints; i ++) {
 			const amt = i / numPoints;
-			const xAmt = xFreq == 0 ? 0 : Math.cos(2 * Math.PI * xFreq * amt + Math.PI / 2);
-			const yAmt = yFreq == 0 ? 0 : Math.sin(2 * Math.PI * yFreq * amt);
+			const xAmt = this.getXAmt(xFreq, amt);
+			const yAmt = this.getYAmt(yFreq, amt);
 			context.lineTo(
 				x + radius * xAmt,
 				y + radius * yAmt,
@@ -54,8 +54,8 @@ export default class Controller {
 		context.closePath();
 		context.stroke();
 
-		const xAmt = xFreq == 0 ? 0 : Math.cos(2 * Math.PI * xFreq * animAmt + Math.PI / 2);
-		const yAmt = yFreq == 0 ? 0 : Math.sin(2 * Math.PI * yFreq * animAmt);
+		const xAmt = this.getXAmt(xFreq, animAmt);
+		const yAmt = this.getYAmt(yFreq, animAmt);
 		context.beginPath();
 		context.arc(
 			x + radius * xAmt,
@@ -63,6 +63,21 @@ export default class Controller {
 			3,
 			0, 2 * Math.PI);
 		context.stroke();
+	}
+	
+	getXAmt(freq, amt) {
+		if (freq == 0) {
+			return 0;
+		}
+		let xAmt = Math.cos(2 * Math.PI * freq * amt);
+		if (freq < 0) {
+			return -xAmt;
+		}
+		return xAmt;
+	}
+
+	getYAmt(freq, amt) {
+		return Math.sin(2 * Math.PI * freq * amt)
 	}
 
 }
