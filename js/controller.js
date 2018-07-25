@@ -6,7 +6,7 @@ export default class Controller {
 
 	update(dt) {
 		const period = 2;
-		this.animAmt += dt / peroid;
+		this.animAmt += dt / period;
 	}
 
 	/**
@@ -21,18 +21,48 @@ export default class Controller {
 
 			for (let y = -maxDist; y <= maxDist; y ++) {
 
-				context.beginPath();
-				context.strokeStyle = 'black';
-				context.arc(
+				this.renderSpiral(
+					context,
 					x * spacing,
 					y * spacing,
 					paddingAmt * spacing / 2,
-					0, 2 * Math.PI
+					x, y,
+					this.animAmt
 				)
-				context.stroke();
-
 			}
 		}
+	}
+
+	/**
+	 * @param {CanvasRenderingContext2D} context 
+	 */
+	renderSpiral(context, x, y, radius, xFreq, yFreq, animAmt) {
+		context.beginPath();
+		context.strokeStyle = 'black';
+		context.lineWidth = 2;
+
+		const numPoints = 50;
+		for (let i = 0; i < numPoints; i ++) {
+			const amt = i / numPoints;
+			const xAmt = xFreq == 0 ? 0 : Math.cos(2 * Math.PI * xFreq * amt + Math.PI / 2);
+			const yAmt = yFreq == 0 ? 0 : Math.sin(2 * Math.PI * yFreq * amt);
+			context.lineTo(
+				x + radius * xAmt,
+				y + radius * yAmt,
+			)
+		}
+		context.closePath();
+		context.stroke();
+
+		const xAmt = xFreq == 0 ? 0 : Math.cos(2 * Math.PI * xFreq * animAmt + Math.PI / 2);
+		const yAmt = yFreq == 0 ? 0 : Math.sin(2 * Math.PI * yFreq * animAmt);
+		context.beginPath();
+		context.arc(
+			x + radius * xAmt,
+			y + radius * yAmt,
+			3,
+			0, 2 * Math.PI);
+		context.stroke();
 	}
 
 }
