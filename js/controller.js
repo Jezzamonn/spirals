@@ -1,3 +1,5 @@
+import { slurp } from './util.js'
+
 function rgb(r, g, b) {
 	return 'rgb('+r+','+g+','+b+')';
 }
@@ -50,10 +52,11 @@ export default class Controller {
 		const numPoints = 50;
 		for (let i = numPoints - 1; i >= 0; i --) {
 			const amt = i / numPoints;
+			const antiAmt = 1 - amt;
 			const nextAmt = (i + 1) / numPoints;
 
 			context.beginPath();
-			context.strokeStyle = grey(amt);
+			context.strokeStyle = grey(1 - antiAmt * antiAmt);
 			context.lineWidth = 2;
 			context.moveTo(
 				x + radius * this.getXAmt(xFreq, animAmt - amt),
