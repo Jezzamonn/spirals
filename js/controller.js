@@ -1,3 +1,12 @@
+function rgb(r, g, b) {
+	return 'rgb('+r+','+g+','+b+')';
+}
+
+function grey(amt) {
+	const whiteAmount = Math.floor(255 * amt);
+	return rgb(whiteAmount, whiteAmount, whiteAmount);
+}
+
 export default class Controller {
 
 	constructor() {
@@ -13,7 +22,7 @@ export default class Controller {
 	 * @param {CanvasRenderingContext2D} context 
 	 */
 	render(context) {
-		const maxDist = 8;
+		const maxDist = 3;
 		const spacing = 500 / (2 * maxDist + 1);
 		const paddingAmt = 0.8;
 
@@ -37,26 +46,31 @@ export default class Controller {
 	 * @param {CanvasRenderingContext2D} context 
 	 */
 	renderSpiral(context, x, y, radius, xFreq, yFreq, animAmt) {
-		context.beginPath();
-		context.strokeStyle = 'black';
-		context.lineWidth = 2;
 
 		const numPoints = 50;
-		for (let i = 0; i < numPoints; i ++) {
+		for (let i = numPoints - 1; i >= 0; i --) {
 			const amt = i / numPoints;
-			const xAmt = this.getXAmt(xFreq, amt);
-			const yAmt = this.getYAmt(yFreq, amt);
-			context.lineTo(
-				x + radius * xAmt,
-				y + radius * yAmt,
+			const nextAmt = (i + 1) / numPoints;
+
+			context.beginPath();
+			context.strokeStyle = grey(amt);
+			context.lineWidth = 2;
+			context.moveTo(
+				x + radius * this.getXAmt(xFreq, animAmt - amt),
+				y + radius * this.getYAmt(yFreq, animAmt - amt)			
 			)
+			context.lineTo(
+				x + radius * this.getXAmt(xFreq, animAmt - nextAmt),
+				y + radius * this.getYAmt(yFreq, animAmt - nextAmt)				
+			)
+			context.stroke();
 		}
-		context.closePath();
-		context.stroke();
 
 		const xAmt = this.getXAmt(xFreq, animAmt);
 		const yAmt = this.getYAmt(yFreq, animAmt);
 		context.beginPath();
+		context.strokeStyle = 'black';
+		context.lineWidth = 2;
 		context.arc(
 			x + radius * xAmt,
 			y + radius * yAmt,
