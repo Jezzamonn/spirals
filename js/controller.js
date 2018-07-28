@@ -24,10 +24,8 @@ export default class Controller {
 	 * @param {CanvasRenderingContext2D} context 
 	 */
 	render(context) {
-		const numSpirals = 9;
-		const width = 500;
-		const spacing = width / numSpirals;
-		const maxDist = (numSpirals - 1) / 2;
+		const maxDist = 3;
+		const spacing = 500 / (2 * maxDist + 1);
 		const paddingAmt = 0.8;
 
 		for (let x = -maxDist; x <= maxDist; x ++) {
@@ -39,8 +37,7 @@ export default class Controller {
 					x * spacing,
 					y * spacing,
 					paddingAmt * spacing / 2,
-					Math.pow(2, x + maxDist),
-					Math.pow(2, y + maxDist),
+					x, y,
 					this.animAmt
 				)
 			}
@@ -52,7 +49,7 @@ export default class Controller {
 	 */
 	renderSpiral(context, x, y, radius, xFreq, yFreq, animAmt) {
 
-		const numPoints = 100 * (xFreq + yFreq);
+		const numPoints = 50;
 		for (let i = numPoints - 1; i >= 0; i --) {
 			const amt = i / numPoints;
 			const antiAmt = 1 - amt;
