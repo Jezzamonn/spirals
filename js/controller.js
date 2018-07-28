@@ -52,7 +52,7 @@ export default class Controller {
 	 */
 	renderSpiral(context, x, y, radius, xFreq, yFreq, animAmt) {
 
-		const numPoints = 100;
+		const numPoints = 100 * (xFreq + yFreq);
 		for (let i = numPoints - 1; i >= 0; i --) {
 			const amt = i / numPoints;
 			const antiAmt = 1 - amt;
